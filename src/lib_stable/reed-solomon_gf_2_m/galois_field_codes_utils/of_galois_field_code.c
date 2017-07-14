@@ -168,7 +168,7 @@ of_status_t of_rs_2m_build_encoding_matrix(of_galois_field_code_cb_t* ofcb)
 	/*
 	 * the upper matrix is I so do not bother with a slow multiply
 	 */
-	bzero (ofcb->enc_matrix, k*k*sizeof (gf));
+	memset (ofcb->enc_matrix, 0, k*k*sizeof (gf));
 	for (p = ofcb->enc_matrix, col = 0 ; col < k ; col++, p += k + 1)
 		*p = 1 ;
 
@@ -201,13 +201,13 @@ of_status_t of_rs_2m_build_decoding_matrix(of_galois_field_code_cb_t* ofcb, int 
 #if 1 /* this is simply an optimization, not very useful indeed */
 		if (index[i] < k)
 		{
-			bzero (p, k*sizeof (gf));
+			memset (p, 0, k*sizeof (gf));
 			p[i] = 1 ;
 		}
 		else
 #endif
 			if (index[i] < (k+r))
-				bcopy (& (ofcb->enc_matrix[index[i]*k]), p, k*sizeof (gf));
+				memmove (p, & (ofcb->enc_matrix[index[i]*k]), k*sizeof (gf));
 			else
 			{
 				OF_PRINT_ERROR ( ("decode: invalid index %d (max %d)\n",
@@ -301,7 +301,7 @@ of_status_t of_rs_2m_decode (of_galois_field_code_cb_t* ofcb, gf *_pkt[], int in
 	{
 		if (index[row] >= k)
 		{
-			bcopy (new_pkt[row], pkt[row], sz*sizeof (gf));
+			memmove (pkt[row], new_pkt[row], sz*sizeof (gf));
 			of_free (new_pkt[row]);
 		}
 	}
@@ -333,12 +333,12 @@ of_status_t	of_rs_2m_encode(of_galois_field_code_cb_t* ofcb,gf *_src[], gf *_fec
 
 	if (index < k)
 	{
-		bcopy (src[index], fec, sz * sizeof(gf));
+		memmove (fec, src[index], sz * sizeof(gf));
 	}
 	else if (index < (ofcb->nb_source_symbols + ofcb->nb_repair_symbols))
 	{
 		p = & (ofcb->enc_matrix[index*k]);
-		bzero (fec, sz * sizeof (gf));
+		memset (fec, 0, sz * sizeof (gf));
 		for (i = 0; i < k ; i++)
 		{
 			if (p[i] != 0 )

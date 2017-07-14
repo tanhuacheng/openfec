@@ -135,7 +135,7 @@ int	of_galois_field_2_8_invert_mat (of_galois_field_code_cb_t* ofcb, gf *src, in
 	gf  *id_row =	(gf*)  of_malloc (1 * k * sizeof(gf));
 	gf  *temp_row =	(gf*)  of_malloc (1 * k * sizeof(gf));
 	
-	bzero (id_row, k*sizeof (gf));
+	memset (id_row, 0, k*sizeof (gf));
 	/*
 	 * ipiv marks elements already used as pivots.
 	 */
@@ -227,7 +227,7 @@ int	of_galois_field_2_8_invert_mat (of_galois_field_code_cb_t* ofcb, gf *src, in
 		 * we can optimize the addmul).
 		 */
 		id_row[icol] = 1;
-		if (bcmp (pivot_row, id_row, k*sizeof (gf)) != 0)
+		if (memcmp (pivot_row, id_row, k*sizeof (gf)) != 0)
 		{
 			for (p = src, ix = 0 ; ix < k ; ix++, p += k)
 			{

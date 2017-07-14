@@ -36,26 +36,6 @@
 
 #ifdef OF_USE_REED_SOLOMON_CODEC
 
-/* VR: added for WIN CE support */
-#ifdef _WIN32_WCE
-#define bzero(to,sz)	memset((to), 0, (sz))
-
-#define bcmp(a,b,sz)	memcmp((a), (b), (sz))
-#endif /* WIN32_WCE */
-
-/*
- * compatibility stuff
- */
-#if defined(WIN32)	/* but also for others, e.g. sun... */
-#define NEED_BCOPY
-#define bcmp(a,b,n) memcmp(a,b,n)
-#endif
-
-#ifdef NEED_BCOPY
-#define bcopy(s, d, siz)        memcpy((d), (s), (siz))
-#define bzero(d, siz)   memset((d), '\0', (siz))
-#endif
-
 #ifndef UINT32
 #define UINT32 unsigned long
 #endif
@@ -508,7 +488,7 @@ of_invert_mat (gf *src, int k)
 	gf *id_row = NEW_GF_MATRIX (1, k);
 	gf *temp_row = NEW_GF_MATRIX (1, k);
 
-	bzero (id_row, k*sizeof (gf));
+	memset (id_row, 0, k*sizeof (gf));
 	DEB (pivloops = 0; pivswaps = 0 ; /* diagnostic */)
 	/*
 	 * ipiv marks elements already used as pivots.
@@ -604,7 +584,7 @@ found_piv:
 		 * we can optimize the addmul).
 		 */
 		id_row[icol] = 1;
-		if (bcmp (pivot_row, id_row, k*sizeof (gf)) != 0)
+		if (memcmp (pivot_row, id_row, k*sizeof (gf)) != 0)
 		{
 			for (p = src, ix = 0 ; ix < k ; ix++, p += k)
 			{
@@ -837,7 +817,7 @@ of_rs_new (UINT32 k, UINT32 n)
 	/*
 	 * the upper matrix is I so do not bother with a slow multiply
 	 */
-	bzero (retval->enc_matrix, k*k*sizeof (gf));
+	memset (retval->enc_matrix, 0, k*k*sizeof (gf));
 	for (p = retval->enc_matrix, col = 0 ; col < k ; col++, p += k + 1)
 		*p = 1 ;
 	free (tmp_m);
@@ -884,11 +864,11 @@ of_rs_encode (struct fec_parms *code, gf *src[], gf *fec, int index, int sz)
 		sz /= 2 ;
 
 	if (index < k)
-		bcopy (src[index], fec, sz*sizeof (gf)) ;
+		memmove (fec, src[index], sz*sizeof (gf)) ;
 	else if (index < code->n)
 	{
 		p = & (code->enc_matrix[index*k]);
-		bzero (fec, sz*sizeof (gf));
+		memset (fec, 0, sz*sizeof (gf));
 		for (i = 0; i < k ; i++)
 			addmul (fec, src[i], p[i], sz) ;
 		return OF_STATUS_OK;
@@ -968,13 +948,13 @@ of_build_decode_matrix (struct fec_parms *code, gf *pkt[], int index[])
 #if 1 /* this is simply an optimization, not very useful indeed */
 		if (index[i] < k)
 		{
-			bzero (p, k*sizeof (gf));
+			memset (p, 0, k*sizeof (gf));
 			p[i] = 1 ;
 		}
 		else
 #endif
 			if (index[i] < code->n)
-				bcopy (& (code->enc_matrix[index[i]*k]), p, k*sizeof (gf));
+				memmove (p, &(code->enc_matrix[index[i]*k]), k*sizeof (gf));
 			else
 			{
 				OF_PRINT_ERROR ( ("decode: invalid index %d (max %d)\n",
@@ -1053,7 +1033,7 @@ of_rs_decode (struct fec_parms *code, gf *pkt[], int index[], int sz)
 		if (index[row] >= k)
 		{
 			new_pkt[row] = (gf *) of_my_malloc (sz * sizeof (gf), "new pkt buffer");
-			bzero (new_pkt[row], sz * sizeof (gf)) ;
+			memset (new_pkt[row], 0, sz * sizeof (gf)) ;
 			for (col = 0 ; col < k ; col++)
 			{
 				addmul (new_pkt[row], pkt[col], m_dec[row*k + col], sz) ;
@@ -1069,7 +1049,7 @@ of_rs_decode (struct fec_parms *code, gf *pkt[], int index[], int sz)
 	{
 		if (index[row] >= k)
 		{
-			bcopy (new_pkt[row], pkt[row], sz*sizeof (gf));
+			memmove (pkt[row], new_pkt[row], sz*sizeof (gf));
 			free (new_pkt[row]);
 		}
 	}

@@ -36,8 +36,6 @@
 
 #include "../of_reed-solomon_gf_2_m_includes.h"
 
-#define bcmp(s1 ,s2, n) memcmp((s1), (s2), (size_t)(n))
-
 #ifdef OF_USE_REED_SOLOMON_2_M_CODEC
 
 #define FEC_MAGIC	0xFECC0DEC
