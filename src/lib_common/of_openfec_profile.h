@@ -53,7 +53,7 @@
 #include "../lib_stable/reed-solomon_gf_2_m/of_codec_profile.h"
 #include "../lib_stable/ldpc_staircase/of_codec_profile.h"
 #include "../lib_stable/2d_parity_matrix/of_codec_profile.h"
-//#include "../lib_advanced/ldpc_from_file/of_codec_profile.h"
+// #include "../lib_advanced/ldpc_from_file/of_codec_profile.h"
 
 /*
  * Edit as needed to define which core solving system to use.
@@ -74,8 +74,8 @@
  * This is useful for PC usage, with processors that support this
  * extension (i.e. all the processors except the very old ones).
  */
-//#define ASSEMBLY_SSE_OPT
- 
+// #define ASSEMBLY_SSE_OPT
+
 /*
  * NB: if SSE is not defined, then we'll use regular XOR operations,
  * either on 32 bit or 64 bit integers depending on the operating
