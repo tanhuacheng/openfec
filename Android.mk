@@ -1,9 +1,9 @@
 LOCAL_PATH := $(call my-dir)
 
 ####################################################################################################
-# libfec
+# libopenfec
 include $(CLEAR_VARS)
-LOCAL_MODULE := libfec
+LOCAL_MODULE := libopenfec
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -g -Wall --std gnu11 -UNDEBUG \
 				-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function \
