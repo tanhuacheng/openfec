@@ -9,7 +9,6 @@ LOCAL_CFLAGS := -g -Wall --std gnu11 -UNDEBUG \
 				-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function \
 				-Wno-missing-field-initializers -Wno-strict-aliasing -Wno-sign-compare \
 				-Wno-implicit-function-declaration
-LOCAL_LDFLAGS := -Wl,--build-id
 LOCAL_ARM_MODE := arm
 
 LOCAL_SRC_FILES := \
