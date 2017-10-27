@@ -519,8 +519,8 @@ of_status_t	of_ldpc_staircase_get_control_parameter (of_ldpc_staircase_cb_t*	ofc
 	switch (type) {
 	case OF_CTRL_GET_MAX_K:
 		if (value == NULL || length != sizeof(UINT32)) {
-			OF_PRINT_ERROR(("%s: OF_CTRL_GET_MAX_K ERROR: null value or bad length (got %d, expected %ld)\n",
-				__FUNCTION__, length, sizeof(UINT32)))
+			OF_PRINT_ERROR(("%s: OF_CTRL_GET_MAX_K ERROR: null value or bad length (got %d, expected %d)\n",
+				__FUNCTION__, length, (int)sizeof(UINT32)))
 			goto error;
 		}
 		*(UINT32*)value = ofcb->max_nb_source_symbols;
@@ -529,8 +529,8 @@ of_status_t	of_ldpc_staircase_get_control_parameter (of_ldpc_staircase_cb_t*	ofc
 
 	case OF_CTRL_GET_MAX_N:
 		if (value == NULL || length != sizeof(UINT32)) {
-			OF_PRINT_ERROR(("%s: OF_CTRL_GET_MAX_N ERROR: null value or bad length (got %d, expected %ld)\n",
-				__FUNCTION__, length, sizeof(UINT32)))
+			OF_PRINT_ERROR(("%s: OF_CTRL_GET_MAX_N ERROR: null value or bad length (got %d, expected %d)\n",
+				__FUNCTION__, length, (int)sizeof(UINT32)))
 			goto error;
 		}
 		*(UINT32*)value = ofcb->max_nb_encoding_symbols;

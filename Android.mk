@@ -8,7 +8,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -g -Wall --std gnu11 -UNDEBUG \
 				-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function \
 				-Wno-missing-field-initializers -Wno-strict-aliasing -Wno-sign-compare \
-				-Wno-implicit-function-declaration
+				-Wno-implicit-function-declaration -Wno-unused-label -Wno-sometimes-uninitialized
 LOCAL_ARM_MODE := arm
 
 LOCAL_SRC_FILES := \
