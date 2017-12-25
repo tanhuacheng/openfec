@@ -5,7 +5,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := libopenfec
 LOCAL_MODULE_TAGS := optional
-LOCAL_CFLAGS := -g -Wall --std gnu11 -UNDEBUG \
+LOCAL_CFLAGS := -g -Wall --std gnu11 -fvisibility=hidden -UNDEBUG \
 				-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function \
 				-Wno-missing-field-initializers -Wno-strict-aliasing -Wno-sign-compare \
 				-Wno-implicit-function-declaration -Wno-unused-label -Wno-sometimes-uninitialized
